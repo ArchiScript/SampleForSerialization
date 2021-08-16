@@ -1,4 +1,6 @@
 ﻿using System;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace SampleForSerialization
 {
@@ -6,7 +8,14 @@ namespace SampleForSerialization
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var triangle = new Figure()
+            {
+                Name = "Triangle",
+                SideCount = 3,
+                SideLength = 2
+            };
+            var serTriangle = JsonConvert.SerializeObject(triangle);
+            List<Figure> figList = new List<Figure>() { triangle, triangle, triangle };
         }
     }
 }
