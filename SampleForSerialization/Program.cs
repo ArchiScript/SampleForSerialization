@@ -54,14 +54,17 @@ namespace SampleForSerialization
             string dic2ser = JsonConvert.SerializeObject(dic2.Keys, Formatting.Indented);
 
 
-            var fig = new Figure();
+            DataSerializer dataSerializer = new DataSerializer();
 
-            var jsonFromObj = Figure.SerializeObjToJson(triangle);
-            var objFromJson = Figure.DeserializeFromJson(jsonFromObj);
-            var jsonFromList = Figure.SerializeListToJson(figList);
-            var jsonFromDic = Figure.SerializeDictToJson(figDic);
-            var listFromJson = Figure.DeserializeListFromJson(jsonFromList);
-            var dicFromJson = Figure.DeserializeDicFromJson(jsonFromDic);
+           
+
+            var jsonFromObj = dataSerializer.SerializeObjToJson(triangle) ;
+            var objFromJson = dataSerializer.DeserializeFromJson(jsonFromObj) as Figure;
+            var jsonFromList = dataSerializer.SerializeObjToJson(figList);
+            var jsonFromDic = dataSerializer.SerializeObjToJson(figDic);
+            //var listFromJson = null;
+            var listFromJson = dataSerializer.DeserializeFromJson(jsonFromList) as List<Figure>;
+            Dictionary<string, Figure> dicFromJson = dataSerializer.DeserializeFromJson(jsonFromDic)as Dictionary<string, Figure>;
             Console.WriteLine($"Это возврат метода SerializeObj: {jsonFromObj}");
             Console.WriteLine($"Это возврат метода SerializeList:{jsonFromList}");
             Console.WriteLine($"Это возврат метода SerializeDict: (вложенный)  {jsonFromDic}");
@@ -82,6 +85,7 @@ namespace SampleForSerialization
                     $"{item.Value.SideLength} {item.Value.Figure1}");
             }
 
+            
 
 
 
