@@ -1,6 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.IO;
 
 
 namespace SampleForSerialization
@@ -17,6 +18,7 @@ namespace SampleForSerialization
                 
            
             };
+            var person = new Person { Name = "Славик", Age = 12 };
             
             List<Figure> figList = new List<Figure>() { triangle, triangle, triangle };
                 
@@ -56,15 +58,19 @@ namespace SampleForSerialization
 
             DataSerializer dataSerializer = new DataSerializer();
 
-           
+            string path = Path.Combine("G:", "C#Projects", "SampleForSerialization", "SerializationFiles");
+            string binPath = $"{path}\\binSer.txt";
+            string xmlPath = $"{path}\\xmlSer.xml";
+            string jsonPath = $"{path}\\jsonSer.json";
 
-            var jsonFromObj = dataSerializer.SerializeObjToJson(triangle) ;
-            var objFromJson = dataSerializer.DeserializeFromJson(jsonFromObj) as Figure;
-            var jsonFromList = dataSerializer.SerializeObjToJson(figList);
-            var jsonFromDic = dataSerializer.SerializeObjToJson(figDic);
-            //var listFromJson = null;
-            var listFromJson = dataSerializer.DeserializeFromJson(jsonFromList) as List<Figure>;
-            Dictionary<string, Figure> dicFromJson = dataSerializer.DeserializeFromJson(jsonFromDic)as Dictionary<string, Figure>;
+            string jsonFromObj = dataSerializer.SerializeToJson<Figure>(triangle) ;
+            
+            var objFromJson = dataSerializer.DeserializeFromJson<Figure>(jsonFromObj);
+            var jsonFromList = dataSerializer.SerializeToJson<List<Figure>>(figList);
+            var jsonFromDic = dataSerializer.SerializeToJson<Dictionary<string,Figure>>(figDic);
+
+                        var listFromJson = dataSerializer.DeserializeFromJson<List<Figure>>(jsonFromList);
+            var dicFromJson = dataSerializer.DeserializeFromJson<Dictionary<string, Figure>>(jsonFromDic);
             Console.WriteLine($"Это возврат метода SerializeObj: {jsonFromObj}");
             Console.WriteLine($"Это возврат метода SerializeList:{jsonFromList}");
             Console.WriteLine($"Это возврат метода SerializeDict: (вложенный)  {jsonFromDic}");
@@ -86,10 +92,22 @@ namespace SampleForSerialization
             }
 
             
+            dataSerializer.BinarySerializer(figList, binPath);
 
 
+            var binSer = dataSerializer.BinaryDeserialize<List<Figure>>(binPath);
+            foreach (var item in binSer)
+            {
+                Console.WriteLine($"Это вывод метода BinaryDeserialize " +
+                    $"{item.Name} {item.SideCount} {item.SideLength} {item.Figure1}");
+            }
 
+            dataSerializer.SerializeToXml<Figure>(triangle, xmlPath);
 
+           var xmlSer = dataSerializer.DeserializeFromXml<Figure>(xmlPath);
+            Console.WriteLine(xmlSer.Name);
+
+            dataSerializer.SerializeToJson<Person>(person, jsonPath);
 
         }
     }

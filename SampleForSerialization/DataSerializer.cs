@@ -4,49 +4,32 @@ using System.Text;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using Newtonsoft.Json;
+using System.Xml.Serialization;
+
 
 namespace SampleForSerialization
 {
-    class DataSerializer
+    public class DataSerializer
     {
 
-        public string SerializeObjToJson(object obj)
+        public string SerializeToJson<T>(T obj)
         {
-            string strObj = JsonConvert.SerializeObject(obj, Formatting.Indented);
+            string strObj = (string)JsonConvert.SerializeObject(obj, Formatting.Indented);
             return strObj;
         }
-        
-       /* public string SerializeListToJson(List<object> objList)
+        public void SerializeToJson<T>(T obj, string path)
         {
-            string strListOfObj = JsonConvert.SerializeObject(objList, Formatting.Indented);
-            return strListOfObj;
+            File.WriteAllText(path, JsonConvert.SerializeObject(obj, Formatting.Indented));
         }
-        
-        public string SerializeDictToJson(Dictionary<string, object> objDic)
+
+        public T DeserializeFromJson<T>(string obj)
         {
-            string strDict = JsonConvert.SerializeObject(objDic, Formatting.Indented);
-            return strDict;
-        }*/
-        
-        public object DeserializeFromJson(string strJson)
-        {
-            var Obj = JsonConvert.DeserializeObject<object>(strJson);
-            return Obj;
+            T serializedObj = JsonConvert.DeserializeObject<T>(obj);
+            return serializedObj;
         }
-       
-       /* public List<object> DeserializeListFromJson(string listJson)
-        {
-            var listObj = JsonConvert.DeserializeObject<List<object>>(listJson);
-            return listObj;
-        }
-       
-        public Dictionary<string, object> DeserializeDicFromJson(string dicJson)
-        {
-            var dicObj = JsonConvert.DeserializeObject<Dictionary<string, object>>(dicJson);
-            return dicObj;
-        }*/
-        
-        public void BinarySerializer(object obj, string path)
+
+
+        public void BinarySerializer<T>(T obj, string path)
         {
             BinaryFormatter binForm = new BinaryFormatter();
             using (FileStream filestream = new FileStream(path, FileMode.OpenOrCreate))
@@ -54,17 +37,38 @@ namespace SampleForSerialization
                 binForm.Serialize(filestream, obj);
             }
         }
-       
-        public object BinaryDeserialize(string path)
+
+        public T BinaryDeserialize<T>(string path)
         {
-            object obj = null;
-                BinaryFormatter binForm = new BinaryFormatter();
+            T obj;
+            BinaryFormatter binForm = new BinaryFormatter();
             using (FileStream fileStream = new FileStream(path, FileMode.OpenOrCreate))
             {
-                obj = binForm.Deserialize(fileStream);
+                obj = (T)binForm.Deserialize(fileStream);
             }
 
             return obj;
         }
+
+        public void SerializeToXml<T>(T obj, string path)
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            using (FileStream fileStream = new FileStream(path, FileMode.OpenOrCreate))
+            {
+                serializer.Serialize(fileStream, obj);
+            }
+        }
+
+        public T DeserializeFromXml<T>(string path)
+        {
+            T obj;
+            XmlSerializer serializer = new XmlSerializer(typeof(T));
+            using (FileStream fileStream = new FileStream(path, FileMode.OpenOrCreate))
+            {
+                obj = (T)serializer.Deserialize(fileStream);
+            }
+            return obj;
+        }
+
     }
 }
