@@ -28,6 +28,7 @@ namespace SampleForSerialization
         {
             Console.WriteLine($"{Name} {SideCount} {SideLength} {Figure1}");
         }
+       
     }
 
 
