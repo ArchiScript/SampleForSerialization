@@ -24,9 +24,9 @@ namespace SampleForSerialization
             int result = num1 * num2;
             return result;
         }
-        public void Display()
+        public void Display(Figure fig)
         {
-            Console.WriteLine($"{Name} {SideCount} {SideLength} {Figure1}");
+            Console.WriteLine($"Название фигуры {fig.Name}  Кол-во сторон{fig.SideCount} Длина сторон{fig.SideLength} Вложенная фигура{fig.Figure1}");
         }
        
     }
