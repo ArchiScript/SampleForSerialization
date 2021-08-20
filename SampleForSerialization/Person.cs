@@ -9,5 +9,12 @@ namespace SampleForSerialization
     {
         public string Name { get; set; }
         public int Age { get; set; }
+
+        public Person(string name, int age)
+        {
+            name = Name;
+            age = Age;
+        }
     }
+
 }

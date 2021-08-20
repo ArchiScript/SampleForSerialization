@@ -18,7 +18,7 @@ namespace SampleForSerialization
                 
            
             };
-            var person = new Person { Name = "Славик", Age = 12 };
+            var person = new Person ( "Славик", 12 );
             
             List<Figure> figList = new List<Figure>() { triangle, triangle, triangle };
                 
