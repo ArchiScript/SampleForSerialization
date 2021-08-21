@@ -16,10 +16,10 @@ namespace SampleForSerialization
             age = Age;
 
         }
-        private string StrangeName(string name)
+        /*private string StrangeName(string name)
         {
             return name + " ибн Хаттаб";
-        }
+        }*/
     }
 
 }
