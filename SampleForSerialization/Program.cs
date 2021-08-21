@@ -112,8 +112,7 @@ namespace SampleForSerialization
             var fig = new Figure();
             fig.Display(triangle);
             Console.WriteLine(Figure.Multiply(3, 5));
-            var per = new Person();
-            per.
+            
 
         }
     }
