@@ -17,8 +17,6 @@ namespace SampleForSerialization
 
 
 
-        
-
         public static int Multiply(int num1, int num2)
         {
             int result = num1 * num2;
@@ -28,7 +26,12 @@ namespace SampleForSerialization
         {
             Console.WriteLine($"Название фигуры {fig.Name}  Кол-во сторон{fig.SideCount} Длина сторон{fig.SideLength} Вложенная фигура{fig.Figure1}");
         }
-       
+
+        private string ChangeName(string name)
+        {
+            return name + " Changed by private method";
+        }
+
     }
 
 
