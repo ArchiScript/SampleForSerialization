@@ -12,11 +12,11 @@ namespace SampleForSerialization
 
         public Person(string name, int age)
         {
-            name = Name;
-            age = Age;
+            Name = name;
+            Age = age;
 
         }
-        
+
     }
 
 }
